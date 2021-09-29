@@ -16,9 +16,9 @@ const db = firebase.firestore();
 
 const ordersRef = db.collection("orders");
 
-export const listendChange = async (userId) => {
+export const listendChange = async (orderId) => {
   const array = [];
-  return await ordersRef.where("userId", "==", userId).onSnapshot((snap) => {
+  return await ordersRef.where("id", "==", orderId).onSnapshot((snap) => {
     snap.forEach((order) => {
       array.push({ id: order.id, order: order.data() });
       console.log(array);
