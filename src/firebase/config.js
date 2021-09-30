@@ -2,6 +2,7 @@
 // import "firebase/compat/firestore";
 import { initializeApp } from "firebase/app";
 import {
+  getFirestore,
   collection,
   query,
   where,
@@ -29,8 +30,6 @@ const firebaseApp = initializeApp(firebaseConfig);
 // const auth = getAuth(firebaseApp);
 const db = getFirestore(firebaseApp);
 
-const db = getFirestore(firebaseApp);
-
 export const listendChange = async (orderId) => {
   // const array = [];
   // return await ordersRef.where("id", "==", orderId).onSnapshot((snap) => {
@@ -46,7 +45,6 @@ export const listendChange = async (orderId) => {
       array.push({ id: doc.id, order: doc.data() });
       console.log(array);
     });
-    console.log("Current cities in CA: ", cities.join(", "));
   });
 };
 
