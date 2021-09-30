@@ -1,5 +1,14 @@
-import firebase from "firebase/compat/app";
-import "firebase/compat/firestore";
+// import firebase from "firebase/compat/app";
+// import "firebase/compat/firestore";
+import { initializeApp } from "firebase/app";
+import {
+  collection,
+  query,
+  where,
+  onSnapshot,
+  doc,
+  setDoc,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyADhEJAg1DPGx3JfBU4SPURkWsHLVhLOgc",
@@ -10,29 +19,47 @@ const firebaseConfig = {
   appId: "1:942547821211:web:143d0ca0aed3ebd0d2dc3e",
 };
 
-!firebase.apps.length && firebase.initializeApp(firebaseConfig);
+// !firebase.apps.length && firebase.initializeApp(firebaseConfig);
 
-const db = firebase.firestore();
+// const db = firebase.firestore();
 
-const ordersRef = db.collection("dataBase/orders");
+// const ordersRef = db.collection("dataBase/orders");
+
+const firebaseApp = initializeApp(firebaseConfig);
+// const auth = getAuth(firebaseApp);
+const db = getFirestore(firebaseApp);
+
+const db = getFirestore(firebaseApp);
 
 export const listendChange = async (orderId) => {
-  const array = [];
-  return await ordersRef.where("id", "==", orderId).onSnapshot((snap) => {
-    snap.forEach((order) => {
-      array.push({ id: order.id, order: order.data() });
+  // const array = [];
+  // return await ordersRef.where("id", "==", orderId).onSnapshot((snap) => {
+  //   snap.forEach((order) => {
+  //     array.push({ id: order.id, order: order.data() });
+  //     console.log(array);
+  //   });
+  // });
+  const q = query(collection(db, "orders"), where("id", "==", "orderId"));
+  onSnapshot(q, (querySnapshot) => {
+    const array = [];
+    querySnapshot.forEach((doc) => {
+      array.push({ id: doc.id, order: doc.data() });
       console.log(array);
     });
+    console.log("Current cities in CA: ", cities.join(", "));
   });
 };
 
 export const uploadOrder = async (order, state, setState) => {
-  try {
-    const myOrder = await ordersRef.add(order);
-    setState(state + 1);
-    return myOrder;
-  } catch (err) {
-    console.log(err);
-    return null;
-  }
+  // try {
+  //   const myOrder = await ordersRef.add(order);
+  //   setState(state + 1);
+  //   return myOrder;
+  // } catch (err) {
+  //   console.log(err);
+  //   return null;
+  // }
+  const myOrder = await setDoc(doc(db, "order", `Primero`, order));
+  setState(state + 1);
+  return myOrder;
 };
