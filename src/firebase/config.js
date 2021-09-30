@@ -14,7 +14,7 @@ const firebaseConfig = {
 
 const db = firebase.firestore();
 
-const ordersRef = db.collection("orders");
+const ordersRef = db.collection("dataBase/orders");
 
 export const listendChange = async (orderId) => {
   const array = [];
